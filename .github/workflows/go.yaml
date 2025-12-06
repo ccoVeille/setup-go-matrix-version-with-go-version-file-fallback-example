@@ -1,0 +1,39 @@
+---
+# This file is part of setup-go-matrix-version-with-go-version-file-fallback-example
+#
+# It showcases how to use actions/setup-go with a matrix of go-version values,
+# including stable, oldstable, and configurations that fall back on the go.mod file for version specification.
+#
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: Copyright (c) 2025 Christophe Colombier (https://github.com/ccoveille)
+name: Go
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+jobs:
+  show-go-version:
+    name: Show Go Version
+    permissions:
+      contents: read  # for actions/checkout to fetch code
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        go-version:
+          - 'stable'
+          - 'oldstable'
+          - ''  # do not specify go-version to fall back on go-version-file configuration
+    steps:
+      - name: checkout-action
+        uses: actions/checkout@v5
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: ${{ matrix.go-version }}
+          go-version-file: "go.mod" # this one is only used when go-version is not specified.
+
+      - name: Display Go version
+        run: go version
