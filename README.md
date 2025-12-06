@@ -41,3 +41,10 @@ jobs:
         run: go test ./...
 ```
 
+The results of the matrix build can be seen in the checks of this pull request:
+
+https://github.com/ccoVeille/setup-go-matrix-version-with-go-version-file-fallback-example/pull/1/checks
+
+- stable: Go 1.25 - latest stable version at the time of running
+- oldstable: Go 1.24 - latest old stable version at the time of running
+- empty string fallback to go-version-file setting: Go 1.21 (from go.mod)
